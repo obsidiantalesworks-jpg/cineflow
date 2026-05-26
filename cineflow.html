@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CINEFLOW — Estudio Creativo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --bg2: #111114;
+    --bg3: #18181d;
+    --surface: #1e1e25;
+    --surface2: #26262f;
+    --border: rgba(255,255,255,0.06);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8e6e0;
+    --text2: #8a8880;
+    --text3: #4a4848;
+    --amber: #d4a853;
+    --amber2: #a07a30;
+    --red: #c04040;
+    --green: #3d8a5a;
+    --blue: #4a6fa5;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --mono: 'DM Mono', monospace;
+    --display: 'Bebas Neue', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 220px;
+    height: 100vh;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    transition: transform 0.3s ease;
+  }
+
+  .logo {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo-mark {
+    font-family: var(--display);
+    font-size: 26px;
+    letter-spacing: 4px;
+    color: var(--text);
+    display: block;
+  }
+
+  .logo-sub {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .nav {
+    flex: 1;
+    padding: 16px 0;
+    overflow-y: auto;
+  }
+
+  .nav-section {
+    margin-bottom: 24px;
+  }
+
+  .nav-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 0 24px;
+    margin-bottom: 8px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 24px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--text2);
+    border-left: 2px solid transparent;
+    letter-spacing: 0.3px;
+  }
+
+  .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+  .nav-item.active { color: var(--amber); border-left-color: var(--amber); background: rgba(212,168,83,0.05); }
+
+  .nav-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+
+  .nav-item.active .nav-icon { opacity: 1; }
+
+  .sidebar-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .project-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 1px;
+  }
+
+  .project-name {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* ── MAIN ── */
+  .main {
+    margin-left: 220px;
+    min-height: 100vh;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,11,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 50;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .breadcrumb {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 1px;
+  }
+
+  .breadcrumb span { color: var(--text2); }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
+
+  .btn-primary {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #0a0a0b;
+  }
+
+  .btn-primary:hover { background: #e0b660; border-color: #e0b660; color: #0a0a0b; }
+
+  /* ── CONTENT ── */
+  .content { padding: 32px; }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── DASHBOARD ── */
+  .dashboard-header {
+    margin-bottom: 32px;
+  }
+
+  .greeting {
+    font-family: var(--display);
+    font-size: 48px;
+    letter-spacing: 3px;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .greeting-sub {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--text2);
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+  }
+
+  .stat-card {
+    background: var(--bg2);
+    padding: 20px 24px;
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .stat-value {
+    font-family: var(--display);
+    font-size: 36px;
+    letter-spacing: 2px;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .stat-sub {
+    font-family: var(--serif);
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .stat-accent { color: var(--amber); }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: 900px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .panel-action {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--amber);
+    cursor: pointer;
+    letter-spacing: 1px;
+    background: none;
+    border: none;
+  }
+
+  .panel-action:hover { color: #e0b660; }
+
+  .panel-body { padding: 4px 0; }
+
+  /* Scene list */
+  .scene-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+
+  .scene-item:last-child { border-bottom: none; }
+  .scene-item:hover { background: rgba(255,255,255,0.02); }
+
+  .scene-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    width: 36px;
+    flex-shrink: 0;
+  }
+
+  .scene-info { flex: 1; min-width: 0; }
+
+  .scene-title {
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .scene-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+
+  .scene-status {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status-done { background: var(--green); }
+  .status-wip { background: var(--amber); }
+  .status-todo { background: var(--text3); }
+
+  /* Activity feed */
+  .activity-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .activity-item:last-child { border-bottom: none; }
+
+  .activity-dot {
+    width: 2px;
+    background: var(--border2);
+    flex-shrink: 0;
+    position: relative;
+    margin-top: 6px;
+    align-self: stretch;
+  }
+
+  .activity-dot::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -3px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+  }
+
+  .activity-dot.amber::before { background: var(--amber); border-color: var(--amber); }
+
+  .activity-text {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--text2);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .activity-time {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Progress bars */
+  .progress-section { padding: 16px 20px; }
+
+  .progress-item { margin-bottom: 16px; }
+  .progress-item:last-child { margin-bottom: 0; }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .progress-name {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  .progress-pct {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  .progress-bar {
+    height: 2px;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--amber);
+    transition: width 0.6s ease;
+  }
+
+  .progress-fill.green { background: var(--green); }
+  .progress-fill.blue { background: var(--blue); }
+
+  /* ── GUIÓN PAGE ── */
+  .script-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    min-height: 600px;
+  }
+
+  @media (max-width: 768px) {
+    .script-layout { grid-template-columns: 1fr; }
+    .script-sidebar { display: none; }
+  }
+
+  .script-sidebar {
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+  }
+
+  .script-sidebar-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .script-sidebar-title {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .script-search {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 7px 10px;
+    outline: none;
+    letter-spacing: 0.5px;
+  }
+
+  .script-search:focus { border-color: var(--border2); }
+
+  .scene-list-full { overflow-y: auto; max-height: 500px; }
+
+  .scene-list-item {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+
+  .scene-list-item:hover { background: rgba(255,255,255,0.02); }
+  .scene-list-item.active { background: rgba(212,168,83,0.07); border-left: 2px solid var(--amber); }
+
+  .sli-num {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 2px;
+    margin-bottom: 3px;
+  }
+
+  .sli-title {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .sli-loc {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    margin-top: 3px;
+    font-style: italic;
+  }
+
+  /* Script editor */
+  .script-editor {
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .editor-toolbar {
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .format-btn {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.15s;
+  }
+
+  .format-btn:hover { color: var(--text2); border-color: var(--border2); }
+  .format-btn.active { color: var(--amber); border-color: var(--amber2); }
+
+  .editor-area {
+    flex: 1;
+    padding: 32px 48px;
+    overflow-y: auto;
+  }
+
+  .script-content {
+    max-width: 580px;
+    margin: 0 auto;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .slug-line {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--amber);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    margin-top: 24px;
+  }
+
+  .slug-line:first-child { margin-top: 0; }
+
+  .action {
+    color: var(--text2);
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.7;
+    font-family: var(--serif);
+    font-style: italic;
+  }
+
+  .character {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 16px;
+    margin-bottom: 2px;
+  }
+
+  .dialogue {
+    text-align: center;
+    max-width: 320px;
+    margin: 0 auto 12px;
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  .parenthetical {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    font-style: italic;
+    margin-bottom: 4px;
+  }
+
+  .script-textarea {
+    width: 100%;
+    min-height: 200px;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.8;
+    outline: none;
+    resize: none;
+    padding: 8px 0;
+    border-top: 1px dashed var(--border);
+    margin-top: 16px;
+  }
+
+  /* ── PERSONAJES ── */
+  .char-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .char-card {
+    background: var(--bg2);
+    padding: 24px;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .char-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--amber);
+    transform: scaleX(0);
+    transition: transform 0.2s;
+  }
+
+  .char-card:hover { background: var(--bg3); }
+  .char-card:hover::before { transform: scaleX(1); }
+
+  .char-initial {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display);
+    font-size: 22px;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+
+  .char-initial.amber { background: rgba(212,168,83,0.12); color: var(--amber); }
+  .char-initial.red { background: rgba(192,64,64,0.12); color: var(--red); }
+  .char-initial.blue { background: rgba(74,111,165,0.12); color: var(--blue); }
+  .char-initial.green { background: rgba(61,138,90,0.12); color: var(--green); }
+
+  .char-name {
+    font-family: var(--display);
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .char-role {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .char-bio {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--text3);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .char-tags {
+    margin-top: 14px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    border: 1px solid var(--border2);
+    padding: 2px 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── STORYBOARD ── */
+  .board-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .board-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  .board-card:hover { border-color: var(--border2); }
+
+  .board-frame {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .board-frame svg { width: 60%; opacity: 0.25; }
+
+  .frame-num {
+    position: absolute;
+    top: 8px; left: 8px;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--amber);
+    letter-spacing: 2px;
+  }
+
+  .frame-type {
+    position: absolute;
+    bottom: 8px; right: 8px;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .board-info {
+    padding: 10px 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .board-title {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 4px;
+    font-style: italic;
+  }
+
+  .board-meta {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 1px;
+  }
+
+  /* ── RODAJE PAGE ── */
+  .shoot-day {
+    margin-bottom: 24px;
+  }
+
+  .shoot-day-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 1px;
+    padding: 14px 20px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-bottom: none;
+  }
+
+  .shoot-day-num {
+    font-family: var(--display);
+    font-size: 32px;
+    letter-spacing: 2px;
+    color: var(--amber);
+    line-height: 1;
+  }
+
+  .shoot-day-date {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--text2);
+    font-style: italic;
+  }
+
+  .shoot-day-count {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 2px;
+    margin-left: auto;
+  }
+
+  .shoot-scene {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 0;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1px;
+    overflow: hidden;
+  }
+
+  .shoot-time {
+    background: var(--bg3);
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    text-align: center;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+  }
+
+  .shoot-info {
+    padding: 14px 20px;
+  }
+
+  .shoot-scene-title {
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .shoot-scene-detail {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 1px;
+  }
+
+  .shoot-status {
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    border-left: 1px solid var(--border);
+  }
+
+  .status-pill {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid;
+  }
+
+  .pill-done { color: var(--green); border-color: rgba(61,138,90,0.4); background: rgba(61,138,90,0.08); }
+  .pill-active { color: var(--amber); border-color: rgba(212,168,83,0.4); background: rgba(212,168,83,0.08); }
+  .pill-pending { color: var(--text3); border-color: var(--border); }
+
+  /* ── MOBILE NAV ── */
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text2);
+    cursor: pointer;
+    padding: 4px;
+    font-size: 20px;
+  }
+
+  .mobile-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 90;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      transform: translateX(-100%);
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .main {
+      margin-left: 0;
+    }
+
+    .mobile-menu-btn {
+      display: block;
+    }
+
+    .mobile-overlay.show {
+      display: block;
+    }
+
+    .content {
+      padding: 20px 16px;
+    }
+
+    .editor-area {
+      padding: 20px 16px;
+    }
+
+    .greeting {
+      font-size: 36px;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .topbar {
+      padding: 12px 16px;
+    }
+
+    .board-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .page.active {
+    animation: fadeIn 0.25s ease;
+  }
+
+  /* Word counter bar */
+  .word-bar {
+    background: var(--bg3);
+    padding: 8px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .word-stat {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 1px;
+  }
+
+  .word-stat span { color: var(--text2); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--surface2); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+  /* Film grain overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="mobile-overlay" id="overlay" onclick="closeMenu()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <span class="logo-mark">CINEFLOW</span>
+    <span class="logo-sub">Estudio Creativo</span>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-section">
+      <div class="nav-label">Proyecto</div>
+      <div class="nav-item active" onclick="showPage('dashboard', this)">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="2" width="7" height="7" rx="1"/><rect x="11" y="2" width="7" height="7" rx="1"/>
+          <rect x="2" y="11" width="7" height="7" rx="1"/><rect x="11" y="11" width="7" height="7" rx="1"/>
+        </svg>
+        Inicio
+      </div>
+      <div class="nav-item" onclick="showPage('guion', this)">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M4 4h12M4 8h12M4 12h8"/>
+          <rect x="3" y="2" width="14" height="16" rx="1"/>
+        </svg>
+        Guión
+      </div>
+      <div class="nav-item" onclick="showPage('personajes', this)">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="8" cy="6" r="3"/><circle cx="14" cy="8" r="2.5"/>
+          <path d="M2 17c0-3 2.7-5 6-5s6 2 6 5M14 14c2 0 4 1.5 4 3"/>
+        </svg>
+        Personajes
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Producción</div>
+      <div class="nav-item" onclick="showPage('storyboard', this)">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="3" width="7" height="5" rx="1"/><rect x="11" y="3" width="7" height="5" rx="1"/>
+          <rect x="2" y="10" width="7" height="5" rx="1"/><rect x="11" y="10" width="7" height="5" rx="1"/>
+        </svg>
+        Storyboard
+      </div>
+      <div class="nav-item" onclick="showPage('rodaje', this)">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="10" cy="10" r="7.5"/>
+          <polygon points="8,7 14,10 8,13"/>
+        </svg>
+        Plan de Rodaje
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Recursos</div>
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M4 4h12v2H4zM4 8h12v8H4z"/>
+        </svg>
+        Referencias
+      </div>
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="10" cy="10" r="7.5"/>
+          <path d="M10 6v4l3 3"/>
+        </svg>
+        Historial
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="project-badge">PROYECTO ACTIVO</div>
+    <div class="project-name">La última luz del alba</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-btn" onclick="toggleMenu()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 5h14M3 10h14M3 15h14"/>
+        </svg>
+      </button>
+      <div class="breadcrumb" id="breadcrumb">
+        CINEFLOW / <span>Inicio</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn">Exportar</button>
+      <button class="btn btn-primary">+ Nueva Escena</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="dashboard-header">
+        <div class="greeting">RESUMEN</div>
+        <div class="greeting-sub">La última luz del alba — Largometraje · Drama · 2025</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Páginas escritas</div>
+          <div class="stat-value"><span class="stat-accent">67</span></div>
+          <div class="stat-sub">de 108 estimadas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Escenas totales</div>
+          <div class="stat-value">42</div>
+          <div class="stat-sub">18 finalizadas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Días de rodaje</div>
+          <div class="stat-value"><span class="stat-accent">21</span></div>
+          <div class="stat-sub">inicio 15 sep 2025</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Personajes</div>
+          <div class="stat-value">12</div>
+          <div class="stat-sub">4 principales</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Escenas recientes</span>
+            <button class="panel-action" onclick="showPage('guion', document.querySelector('[onclick*=guion]'))">Ver todas →</button>
+          </div>
+          <div class="panel-body">
+            <div class="scene-item">
+              <span class="scene-num">SC·18</span>
+              <div class="scene-info">
+                <div class="scene-title">El encuentro en el mercado</div>
+                <div class="scene-meta">INT · MERCADO CENTRAL · DÍA</div>
+              </div>
+              <span class="scene-status status-done"></span>
+            </div>
+            <div class="scene-item">
+              <span class="scene-num">SC·19</span>
+              <div class="scene-info">
+                <div class="scene-title">Confesión bajo la lluvia</div>
+                <div class="scene-meta">EXT · CALLE DEL PUERTO · NOCHE</div>
+              </div>
+              <span class="scene-status status-wip"></span>
+            </div>
+            <div class="scene-item">
+              <span class="scene-num">SC·20</span>
+              <div class="scene-info">
+                <div class="scene-title">La carta que no llegó</div>
+                <div class="scene-meta">INT · APARTAMENTO ELENA · NOCHE</div>
+              </div>
+              <span class="scene-status status-wip"></span>
+            </div>
+            <div class="scene-item">
+              <span class="scene-num">SC·21</span>
+              <div class="scene-info">
+                <div class="scene-title">El primer engaño</div>
+                <div class="scene-meta">INT · OFICINA MARCOS · DÍA</div>
+              </div>
+              <span class="scene-status status-todo"></span>
+            </div>
+            <div class="scene-item">
+              <span class="scene-num">SC·22</span>
+              <div class="scene-info">
+                <div class="scene-title">Retorno al pueblo natal</div>
+                <div class="scene-meta">EXT · CARRETERA N-340 · AMANECER</div>
+              </div>
+              <span class="scene-status status-todo"></span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0;">
+          <div class="panel" style="margin-bottom: 1px;">
+            <div class="panel-header">
+              <span class="panel-title">Progreso del guión</span>
+            </div>
+            <div class="progress-section">
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span class="progress-name">Acto I — El despertar</span>
+                  <span class="progress-pct">100%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill green" style="width:100%"></div>
+                </div>
+              </div>
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span class="progress-name">Acto II — La búsqueda</span>
+                  <span class="progress-pct">62%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width:62%"></div>
+                </div>
+              </div>
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span class="progress-name">Acto III — La resolución</span>
+                  <span class="progress-pct">5%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill blue" style="width:5%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Actividad reciente</span>
+            </div>
+            <div class="panel-body">
+              <div class="activity-item">
+                <div class="activity-dot amber"></div>
+                <div>
+                  <div class="activity-text">Escena 19 revisada — añadidos 3 diálogos nuevos</div>
+                  <div class="activity-time">HACE 2 HORAS</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot"></div>
+                <div>
+                  <div class="activity-text">Storyboard de la secuencia del puerto completado</div>
+                  <div class="activity-time">AYER · 19:34</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot"></div>
+                <div>
+                  <div class="activity-text">Personaje «Valentina» añadida al reparto</div>
+                  <div class="activity-time">AYER · 11:20</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GUIÓN -->
+    <div class="page" id="page-guion">
+      <div class="script-layout">
+        <div class="script-sidebar">
+          <div class="script-sidebar-header">
+            <div class="script-sidebar-title">Escenas — 42</div>
+            <input type="text" class="script-search" placeholder="Buscar escena...">
+          </div>
+          <div class="scene-list-full">
+            <div class="scene-list-item">
+              <div class="sli-num">SC · 001</div>
+              <div class="sli-title">Amanecer sobre el mar</div>
+              <div class="sli-loc">EXT · PLAYA · AMANECER</div>
+            </div>
+            <div class="scene-list-item">
+              <div class="sli-num">SC · 002</div>
+              <div class="sli-title">Elena en el trabajo</div>
+              <div class="sli-loc">INT · REDACCIÓN · DÍA</div>
+            </div>
+            <div class="scene-list-item active">
+              <div class="sli-num">SC · 003</div>
+              <div class="sli-title">El primer encuentro</div>
+              <div class="sli-loc">INT · CAFÉ LUNA · DÍA</div>
+            </div>
+            <div class="scene-list-item">
+              <div class="sli-num">SC · 004</div>
+              <div class="sli-title">La llamada nocturna</div>
+              <div class="sli-loc">INT · APARTAMENTO · NOCHE</div>
+            </div>
+            <div class="scene-list-item">
+              <div class="sli-num">SC · 005</div>
+              <div class="sli-title">Recuerdos del padre</div>
+              <div class="sli-loc">INT/EXT · FLASHBACK · DÍA</div>
+            </div>
+            <div class="scene-list-item">
+              <div class="sli-num">SC · 006</div>
+              <div class="sli-title">Tensión en la reunión</div>
+              <div class="sli-loc">INT · SALA REUNIONES · DÍA</div>
+            </div>
+            <div class="scene-list-item">
+              <div class="sli-num">SC · 007</div>
+              <div class="sli-title">Paseo por el barrio</div>
+              <div class="sli-loc">EXT · CASCO ANTIGUO · TARDE</div>
+            </div>
+            <div class="scene-list-item">
+              <div class="sli-num">SC · 008</div>
+              <div class="sli-title">El secreto revelado</div>
+              <div class="sli-loc">INT · CASA FAMILIA · NOCHE</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="script-editor">
+          <div class="editor-toolbar">
+            <button class="format-btn active">SLUG LINE</button>
+            <button class="format-btn">ACCIÓN</button>
+            <button class="format-btn">PERSONAJE</button>
+            <button class="format-btn">DIÁLOGO</button>
+            <button class="format-btn">PARÉN.</button>
+            <button class="format-btn">TRANSICIÓN</button>
+          </div>
+
+          <div class="editor-area">
+            <div class="script-content">
+              <div class="slug-line">INT. CAFÉ LUNA — DÍA</div>
+              <p class="action">El local está casi vacío a esa hora de la mañana. La luz entra oblicua por las ventanas empañadas, dibujando franjas de polvo en el aire quieto. ELENA, 34, periodista de porte cansado pero ojos alertas, sostiene un café que ya no humea.</p>
+
+              <div class="slug-line" style="margin-top: 20px;">INT. CAFÉ LUNA — CONTINÚA</div>
+              <p class="action">Un hombre entra: MARCOS, 38, arquitecto. Lleva planos bajo el brazo. Busca mesa. Sus ojos se cruzan con los de Elena un instante demasiado largo para ser casualidad.</p>
+
+              <p class="character">MARCOS</p>
+              <p class="parenthetical">(disculpándose)</p>
+              <p class="dialogue">¿Está ocupado? Todas las otras mesas...
+              <em style="font-size:12px; color: var(--text3); display: block; margin-top: 4px;">señala los planos</em>
+              </p>
+
+              <p class="character">ELENA</p>
+              <p class="dialogue">Solo el fantasma de mis esperanzas.</p>
+
+              <p class="action">Marcos no sabe si reír. Se sienta frente a ella con cautela, como quien ocupa territorio ajeno.</p>
+
+              <p class="character">MARCOS</p>
+              <p class="dialogue">Marcos.<br><em style="font-size:12px; color: var(--text3);">pausa</em><br>Por si acaso necesitas un nombre para el exorcismo.</p>
+
+              <p class="action">Elena lo mira por encima del borde de su taza. Algo en ella decide que hoy, excepcionalmente, puede permitirse una sonrisa.</p>
+
+              <p class="character">ELENA</p>
+              <p class="dialogue">Elena. Y no necesito exorcistas. Solo más café.</p>
+
+              <p class="action">Marcos llama al camarero. La luz cambia. El polvo en el aire parece detenerse.</p>
+
+              <textarea class="script-textarea" placeholder="Continúa la escena aquí...&#10;&#10;Usa Tab para cambiar el formato: INT/EXT, acción, personaje, diálogo..."></textarea>
+            </div>
+          </div>
+
+          <div class="word-bar">
+            <span class="word-stat">ESCENA <span>003 / 042</span></span>
+            <span class="word-stat">PALABRAS <span>247</span></span>
+            <span class="word-stat">PÁGINAS <span>1.8</span></span>
+            <span class="word-stat" style="margin-left: auto;">GUARDADO <span>AUTOMÁTICO ✓</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERSONAJES -->
+    <div class="page" id="page-personajes">
+      <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <div class="greeting" style="font-size:36px;">REPARTO</div>
+          <div class="greeting-sub">12 personajes — 4 principales, 8 secundarios</div>
+        </div>
+        <button class="btn btn-primary">+ Añadir personaje</button>
+      </div>
+
+      <div class="char-grid">
+        <div class="char-card">
+          <div class="char-initial amber">E</div>
+          <div class="char-name">ELENA VIDAL</div>
+          <div class="char-role">Protagonista · Periodista</div>
+          <div class="char-bio">Mujer de 34 años marcada por la pérdida temprana de su padre. Inteligente, contenida emocionalmente. Busca verdades ajenas para no enfrentarse a las propias.</div>
+          <div class="char-tags">
+            <span class="tag">Drama</span>
+            <span class="tag">Acto I-III</span>
+            <span class="tag">24 escenas</span>
+          </div>
+        </div>
+
+        <div class="char-card">
+          <div class="char-initial blue">M</div>
+          <div class="char-name">MARCOS ALDEA</div>
+          <div class="char-role">Protagonista · Arquitecto</div>
+          <div class="char-bio">38 años, divorciado. Construye espacios perfectos porque el suyo interior está en ruinas. El encuentro con Elena comienza a resquebrajar sus defensas.</div>
+          <div class="char-tags">
+            <span class="tag">Drama</span>
+            <span class="tag">Acto II-III</span>
+            <span class="tag">19 escenas</span>
+          </div>
+        </div>
+
+        <div class="char-card">
+          <div class="char-initial red">V</div>
+          <div class="char-name">VALENTINA SOL</div>
+          <div class="char-role">Secundaria · Amiga</div>
+          <div class="char-bio">La mejor amiga de Elena desde la infancia. Extrovertida y pragmática. Su voz es la del mundo real, el contrapunto cómico y sabio que mantiene a Elena anclada.</div>
+          <div class="char-tags">
+            <span class="tag">Comedia</span>
+            <span class="tag">Acto I-II</span>
+            <span class="tag">11 escenas</span>
+          </div>
+        </div>
+
+        <div class="char-card">
+          <div class="char-initial green">R</div>
+          <div class="char-name">ROBERTO VIDAL</div>
+          <div class="char-role">Secundario · El padre (Flashback)</div>
+          <div class="char-bio">Solo aparece en recuerdos de Elena. Su presencia ausente define cada decisión de su hija. Un hombre de silencios cargados y gestos que decían lo que la voz no podía.</div>
+          <div class="char-tags">
+            <span class="tag">Flashback</span>
+            <span class="tag">Acto I</span>
+            <span class="tag">6 escenas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STORYBOARD -->
+    <div class="page" id="page-storyboard">
+      <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <div class="greeting" style="font-size:36px;">STORYBOARD</div>
+          <div class="greeting-sub">Secuencia 03 — El primer encuentro · 8 planos</div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn">Vista línea</button>
+          <button class="btn btn-primary">+ Añadir plano</button>
+        </div>
+      </div>
+
+      <div class="board-grid">
+        <div class="board-card">
+          <div class="board-frame">
+            <span class="frame-num">01</span>
+            <svg viewBox="0 0 80 50" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="5" y="5" width="70" height="40" rx="1"/>
+              <circle cx="40" cy="15" r="8"/>
+              <path d="M15 45 Q40 30 65 45"/>
+            </svg>
+            <span class="frame-type">PG GENERAL</span>
+          </div>
+          <div class="board-info">
+            <div class="board-title">Café desde la calle</div>
+            <div class="board-meta">EXT → INT · GRÚA DESCENDENTE</div>
+          </div>
+        </div>
+
+        <div class="board-card">
+          <div class="board-frame">
+            <span class="frame-num">02</span>
+            <svg viewBox="0 0 80 50" fill="none" stroke="currentColor" stroke-width="1.5">
+              <line x1="10" y1="45" x2="70" y2="45"/>
+              <line x1="20" y1="15" x2="20" y2="45"/>
+              <line x1="50" y1="20" x2="50" y2="45"/>
+              <path d="M10 20 L20 15 L50 20 L70 18"/>
+              <circle cx="35" cy="28" r="5"/>
+            </svg>
+            <span class="frame-type">P AMERICANO</span>
+          </div>
+          <div class="board-info">
+            <div class="board-title">Elena sola en la mesa</div>
+            <div class="board-meta">INT · FIJO CON DOLLY</div>
+          </div>
+        </div>
+
+        <div class="board-card">
+          <div class="board-frame">
+            <span class="frame-num">03</span>
+            <svg viewBox="0 0 80 50" fill="none" stroke="currentColor" stroke-width="1.5">
+              <ellipse cx="40" cy="20" rx="12" ry="14"/>
+              <path d="M25 45 Q40 35 55 45"/>
+              <line x1="30" y1="30" x2="25" y2="45"/>
+              <line x1="50" y1="30" x2="55" y2="45"/>
+            </svg>
+            <span class="frame-type">P MEDIO</span>
+          </div>
+          <div class="board-info">
+            <div class="board-title">Elena mira al vacío</div>
+            <div class="board-meta">INT · FIJO · LUZ DIFUSA</div>
+          </div>
+        </div>
+
+        <div class="board-card" style="border-color: var(--amber2);">
+          <div class="board-frame">
+            <span class="frame-num">04</span>
+            <svg viewBox="0 0 80 50" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M10 40 L40 10 L70 40"/>
+              <rect x="30" y="22" width="20" height="18"/>
+              <line x1="10" y1="40" x2="70" y2="40"/>
+            </svg>
+            <span class="frame-type">CONTRAPICADO</span>
+          </div>
+          <div class="board-info">
+            <div class="board-title">Marcos entra al local</div>
+            <div class="board-meta">INT · SEGUIMIENTO</div>
+          </div>
+        </div>
+
+        <div class="board-card">
+          <div class="board-frame">
+            <span class="frame-num">05</span>
+            <svg viewBox="0 0 80 50" fill="none" stroke="currentColor" stroke-width="1.5">
+              <ellipse cx="25" cy="20" rx="8" ry="10"/>
+              <path d="M17 30 L15 45"/>
+              <path d="M33 30 L35 45"/>
+              <ellipse cx="55" cy="22" rx="8" ry="10" stroke-dasharray="3 2"/>
+            </svg>
+            <span class="frame-type">P CONJUNTO</span>
+          </div>
+          <div class="board-info">
+            <div class="board-title">Miradas que se cruzan</div>
+            <div class="board-meta">INT · FIJO · RACK FOCUS</div>
+          </div>
+        </div>
+
+        <div class="board-card">
+          <div class="board-frame">
+            <span class="frame-num">06</span>
+            <svg viewBox="0 0 80 50" fill="none" stroke="currentColor" stroke-width="1.5">
+              <ellipse cx="40" cy="18" rx="15" ry="18"/>
+              <path d="M32" cy="18" rx="15" ry="18"/>
+              <path d="M25 38 Q40 32 55 38"/>
+              <line x1="28" y1="32" x2="22" y2="48"/>
+              <line x1="52" y1="32" x2="58" y2="48"/>
+            </svg>
+            <span class="frame-type">P PRIMER</span>
+          </div>
+          <div class="board-info">
+            <div class="board-title">Reacción de Elena</div>
+            <div class="board-meta">INT · ZOOM SUAVE</div>
+          </div>
+        </div>
+
+        <div class="board-card">
+          <div class="board-frame">
+            <span class="frame-num">07</span>
+            <svg viewBox="0 0 80 50" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="5" y="30" width="30" height="15"/>
+              <rect x="25" y="22" width="30" height="15"/>
+              <rect x="45" y="14" width="30" height="15"/>
+            </svg>
+            <span class="frame-type">SUBJ. MARCOS</span>
+          </div>
+          <div class="board-info">
+            <div class="board-title">El café que ya no humea</div>
+            <div class="board-meta">INT · SUBJETIVA SUAVE</div>
+          </div>
+        </div>
+
+        <div class="board-card" style="border-style: dashed; cursor: default; opacity: 0.5;">
+          <div class="board-frame" style="border: 2px dashed var(--border2);">
+            <svg viewBox="0 0 80 50" fill="none" stroke="currentColor" stroke-width="1">
+              <line x1="35" y1="25" x2="45" y2="25"/><line x1="40" y1="20" x2="40" y2="30"/>
+            </svg>
+          </div>
+          <div class="board-info">
+            <div class="board-title" style="color: var(--text3);">Añadir plano...</div>
+            <div class="board-meta">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RODAJE -->
+    <div class="page" id="page-rodaje">
+      <div style="margin-bottom: 24px;">
+        <div class="greeting" style="font-size:36px;">PLAN DE RODAJE</div>
+        <div class="greeting-sub">Inicio: 15 septiembre 2025 · 21 días · 42 escenas</div>
+      </div>
+
+      <div class="shoot-day">
+        <div class="shoot-day-header">
+          <div class="shoot-day-num">01</div>
+          <div class="shoot-day-date">Lunes, 15 de septiembre de 2025</div>
+          <div class="shoot-day-count">4 ESCENAS · 8 PÁG.</div>
+        </div>
+        <div class="shoot-scene">
+          <div class="shoot-time">07:00<br>—<br>09:30</div>
+          <div class="shoot-info">
+            <div class="shoot-scene-title">Amanecer sobre el mar</div>
+            <div class="shoot-scene-detail">EXT · PLAYA DE LA MISERICORDIA · PLAYA LUNA / SC·001 / 2 PÁG.</div>
+          </div>
+          <div class="shoot-status"><span class="status-pill pill-done">Listo</span></div>
+        </div>
+        <div class="shoot-scene">
+          <div class="shoot-time">10:00<br>—<br>13:00</div>
+          <div class="shoot-info">
+            <div class="shoot-scene-title">Elena en el trabajo</div>
+            <div class="shoot-scene-detail">INT · REDACCIÓN DE EL SUR · SC·002 / 3 PÁG.</div>
+          </div>
+          <div class="shoot-status"><span class="status-pill pill-active">Rodando</span></div>
+        </div>
+        <div class="shoot-scene">
+          <div class="shoot-time">15:00<br>—<br>18:00</div>
+          <div class="shoot-info">
+            <div class="shoot-scene-title">El primer encuentro</div>
+            <div class="shoot-scene-detail">INT · CAFÉ CHINITAS · MÁLAGA / SC·003 / 2 PÁG.</div>
+          </div>
+          <div class="shoot-status"><span class="status-pill pill-pending">Pendiente</span></div>
+        </div>
+      </div>
+
+      <div class="shoot-day">
+        <div class="shoot-day-header">
+          <div class="shoot-day-num">02</div>
+          <div class="shoot-day-date">Martes, 16 de septiembre de 2025</div>
+          <div class="shoot-day-count">3 ESCENAS · 6 PÁG.</div>
+        </div>
+        <div class="shoot-scene">
+          <div class="shoot-time">08:00<br>—<br>11:00</div>
+          <div class="shoot-info">
+            <div class="shoot-scene-title">La llamada nocturna</div>
+            <div class="shoot-scene-detail">INT · APARTAMENTO ELENA · SC·004 / 2 PÁG.</div>
+          </div>
+          <div class="shoot-status"><span class="status-pill pill-pending">Pendiente</span></div>
+        </div>
+        <div class="shoot-scene">
+          <div class="shoot-time">12:00<br>—<br>14:30</div>
+          <div class="shoot-info">
+            <div class="shoot-scene-title">Recuerdos del padre — Flashback</div>
+            <div class="shoot-scene-detail">EXT · JARDÍN CASA FAMILIAR · SC·005 / 2 PÁG.</div>
+          </div>
+          <div class="shoot-status"><span class="status-pill pill-pending">Pendiente</span></div>
+        </div>
+        <div class="shoot-scene">
+          <div class="shoot-time">16:00<br>—<br>19:00</div>
+          <div class="shoot-info">
+            <div class="shoot-scene-title">Tensión en la reunión</div>
+            <div class="shoot-scene-detail">INT · HOTEL AC MÁLAGA / SC·006 / 2 PÁG.</div>
+          </div>
+          <div class="shoot-status"><span class="status-pill pill-pending">Pendiente</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+
+<script>
+  const pages = {
+    dashboard: { label: 'Inicio', bread: 'Inicio' },
+    guion: { label: 'Guión', bread: 'Guión' },
+    personajes: { label: 'Personajes', bread: 'Personajes' },
+    storyboard: { label: 'Storyboard', bread: 'Storyboard' },
+    rodaje: { label: 'Plan de Rodaje', bread: 'Plan de Rodaje' }
+  };
+
+  function showPage(id, el) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if (el) el.classList.add('active');
+
+    const info = pages[id] || { bread: id };
+    document.getElementById('breadcrumb').innerHTML = `CINEFLOW / <span>${info.bread}</span>`;
+
+    closeMenu();
+  }
+
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('show');
+  }
+
+  function closeMenu() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+
+  document.querySelectorAll('.format-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.scene-list-item').forEach(item => {
+    item.addEventListener('click', function() {
+      document.querySelectorAll('.scene-list-item').forEach(i => i.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
